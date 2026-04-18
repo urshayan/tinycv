@@ -1,6 +1,14 @@
 #pragma once
 #include <vector>
 
+  // GRAY-SCALE
+    enum class GrayMethod{
+        average,
+        luminosity,
+        lightness,
+        redChannel
+    };
+
 namespace tinycv{
 
     // pixel memory representation
@@ -25,6 +33,21 @@ namespace tinycv{
             const Pixel& at(int x, int y)const;
 
             void fill(Pixel p);
+            // funtion for gray scale, invertColor
+           static Image grayscale(const Image& img, GrayMethod method);
+           static Image invertColor(const Image& img);
+           // To Be implemented!
+           //static Image brightnessAndcontrast(const Image& img, alpha , beta);
     };
 
 }
+ 
+ 
+/*
+
+    Grayscale            => take average of the pixel ...or multiply with magic numbers...or the max - min / 2 method...
+    InvertColors         => take individual pixel and subtract it from 255
+    Brightness&Contrast  => output pixel  = alpha * (input pixel) + beta  .. where alpha=gain,contrast,value>1 means more contrast
+                            and beta = bias,brightness,adding value makes it more bright and vice versa 
+
+*/
