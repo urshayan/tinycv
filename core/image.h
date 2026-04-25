@@ -38,6 +38,7 @@ namespace tinycv{
            static Image invertColor(const Image& img);
            // To Be implemented!
            //static Image brightnessAndcontrast(const Image& img, alpha , beta);
+           static Image brightnessAndcontrast(const Image& img, float alpha, int beta);
     };
 
 }

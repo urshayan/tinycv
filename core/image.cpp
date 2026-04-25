@@ -2,6 +2,11 @@
 #include <algorithm>
 
 
+// clamp funtion
+inline unsigned char clamp(int v) {
+    return static_cast<unsigned char>(v < 0 ? 0 : (v > 255 ? 255 : v));
+}
+
 namespace tinycv{
 
     // constructor
@@ -64,6 +69,7 @@ namespace tinycv{
         }
         return out;
     }
+    
     // invert color
     Image Image::invertColor(const Image& img){
         Image out(img.width,img.height);
@@ -87,5 +93,31 @@ namespace tinycv{
         }
         return out;
     }
+
+    Image Image::brightnessAndcontrast(const Image& img, float alpha, int beta){
+
+        Image out(img.width, img.height);
+
+        for(int y = 0; y < img.height; y++){
+            for (int x = 0; x < img.width; x++){
+                auto p = img.at(x,y);
+                
+                int new_r = alpha * (p.r - 128) + beta;
+                int new_g = alpha * (p.g - 128) + beta;
+                int new_b = alpha * (p.b - 128) + beta;
+
+                out.at(x,y) = {
+                    
+                    clamp(new_r),
+                    clamp(new_g),
+                    clamp(new_b)
+                };
+
+            }
+        }
+        return out;
+
+    }
+
 }
  
