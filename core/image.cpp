@@ -119,5 +119,49 @@ namespace tinycv{
 
     }
 
+    Image Image::convolve(const Image& img, const Kernal& kernal){
+
+        Image out = img;
+
+        int kw = kernal.k_width;
+        int kh = kernal.k_height;
+
+        int kx_center = kw / 2;
+        int ky_center = kh / 2;
+
+        for (int y = 0; y < img.height; y++){
+            for (int x = 0; x < img.width; x++){
+
+                float r = 0, g = 0, b = 0;
+
+                for (int ky = 0; ky < kh; ky++){
+                    for(int kx = 0; kx < kw; kx++){
+
+                        int ix = x + (kx - kx_center);
+                        int iy = y + (ky - ky_center);
+
+                        if (ix < 0 || iy < 0 || ix >= img.width || iy >= img.height)continue;
+
+                        const Pixel& p = img.at(ix,iy);
+                        float w = kernal.k_data[ky][kx];
+
+                        r += p.r * w;
+                        g += p.g * w;
+                        b += p.b * w;
+
+                    }
+                }
+
+                Pixel& o = out.at(x,y);
+
+                o.r = clamp(r);
+                o.g = clamp(g);
+                o.b = clamp(b);
+            }
+        }
+        return out;
+
+    }
+
 }
  

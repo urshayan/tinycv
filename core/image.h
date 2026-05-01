@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <initializer_list>
+
 
   // GRAY-SCALE
     enum class GrayMethod{
@@ -10,6 +12,33 @@
     };
 
 namespace tinycv{
+
+
+   struct Kernal{
+        int k_width, k_height;
+        std::vector<std::vector<float>> k_data;
+
+        Kernal(std::initializer_list<std::initializer_list<float>> mat){
+            k_height = mat.size();
+            k_width = mat.begin()->size();
+
+            k_data.resize(k_height, std::vector<float>(k_width));
+
+            int y = 0;
+
+            for(auto &row : mat){
+                int x = 0;
+                for (auto v : row){
+                    k_data[y][x++] = v;
+                }
+                y++;
+            }
+
+        }
+        
+
+   };
+
 
     // pixel memory representation
     // unsigned char is 8-bits => 1byte  
@@ -39,6 +68,7 @@ namespace tinycv{
            // To Be implemented!
            //static Image brightnessAndcontrast(const Image& img, alpha , beta);
            static Image brightnessAndcontrast(const Image& img, float alpha, int beta);
+           static Image convolve(const Image& img, const Kernal& kernal);
     };
 
 }
