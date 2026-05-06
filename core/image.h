@@ -13,7 +13,7 @@
 
 namespace tinycv{
 
-
+    // TODO: add normalization to the kernal and also make pre-built kernals and a kernal generator
    struct Kernal{
         int k_width, k_height;
         std::vector<std::vector<float>> k_data;
